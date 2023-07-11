@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
-const tableTemp = require('console.table');
+const consoleTable = require('console.table');
 
 
 // Creating connection with inquirer to database
@@ -9,7 +9,7 @@ const connection = mysql.createConnection (
         host: 'localhost',
         user: 'root',
         password: 'password',
-        database: 'employee_tracker'
+        database: 'employeeTracker'
     }
 );
 
@@ -30,31 +30,31 @@ function departmentChoice() {
       inquirer.prompt([
         {
           name: 'job_title',
-          message: 'What is the job title?',
+          message: 'What is your job title?',
           type: 'input',
           validate: (value) => {
             if (value) {
               return true;
             } else {
-              return 'Cannot be blank!. Please try typing again';
+              return 'Please provide your input';
             }
           }
         },
         {
           name: 'salary',
-          message: 'What is the salary for this job title?',
+          message: 'What is your salary?',
           type: 'input',
           validate: (value) => {
             if (value) {
               return true;
             } else {
-              return 'Cannot be blank!. Please try typing again';
+              return 'Please provide your input';
             }
           }
         },
         {
           name: 'selectedChoice',
-          message: 'What department does this job title belong to?',
+          message: 'What department does this job belong to?',
           type: 'list',
           choices: choice
         }
@@ -63,7 +63,7 @@ function departmentChoice() {
   
         connection.query(query, (err, results) => {
           if (err) {
-            console.error('Role already exist! Please try again!');
+            console.error('Invalid. A role already exists');
           } else {
           console.log('Role Added!');
           }
@@ -83,7 +83,7 @@ function departmentChoice() {
           });
         });
       }).catch((err) => {
-        console.error('Error during role insertion:', err);
+        console.error('Invalid:', err);
         promptCategories(); // Go back to the main menu
       });
     });
@@ -97,13 +97,13 @@ function addingDepartment() {
             inquirer.prompt ([
                 {
                     name: 'adding_department',
-                    message: 'What is the name of the department you like to add?',
+                    message: 'What is the name of a new department?',
                     type: 'input',
                     validate: (value) => {
                         if(value){
                             return true
                         } else {
-                            return 'Cannot be blank!. Please Try Typing again'
+                            return 'Please provide your input'
                         }
                     }
                 }]).then((input) => {
@@ -111,9 +111,9 @@ function addingDepartment() {
 
                     connection.query(query, (err, results) => {
                         if (err) {
-                            console.log('Department already exist! Please Try Again!');
+                            console.log('Invalid. Department already exist');
                         } else {
-                        console.log('Department Added!');
+                        console.log('Department Added');
                         }
                         inquirer.prompt([
                             {
@@ -337,7 +337,7 @@ function addingEmployee () {
                     if(value){
                         return true;
                     } else {
-                        return 'Cannot be blank!. Please Try Typing again';
+                        return 'Please provide your input';
                     }
                 }
             },
@@ -349,7 +349,7 @@ function addingEmployee () {
                     if(value){
                         return true;
                     } else {
-                        return 'Cannot be blank!. Please Try Typing again';
+                        return 'Please provide your input';
                     }
                 }
             },
@@ -367,7 +367,7 @@ function addingEmployee () {
                     if(value){
                         return true;
                     } else {
-                        return 'Cannot be blank!. Please Try Typing again';
+                        return 'Please provide your input';
                     }
                 }
             }
@@ -412,7 +412,7 @@ function viewAllEmployees() {
                 if(err) {
                     console.log('error!')
                 }
-                const table = tableTemp.getTable(results)
+                const table = consoleTable.getTable(results)
                 console.log(table);
                 //Lets user know to press enter to go back to the list instead of the list re-prompting right away
                 inquirer.prompt([ 
@@ -434,7 +434,7 @@ function viewAllRoles() {
                 if(err) {
                     console.log('error!')
                 }
-                const table = tableTemp.getTable(results)
+                const table = consoleTable.getTable(results)
                 console.log(table);
                 inquirer.prompt([
                     {
@@ -455,7 +455,7 @@ function viewAllDepartments() {
                 if(err) {
                     console.log('error!')
                 }
-                const table = tableTemp.getTable(results)
+                const table = consoleTable.getTable(results)
                 console.log(table);
                 //Lets user know to press enter to go back to the list instead of the list re-prompting right away
                 inquirer.prompt([
@@ -504,7 +504,7 @@ function viewingByDept() {
         if(err) {
             console.log('error!')
         }
-        const table = tableTemp.getTable(results)
+        const table = consoleTable.getTable(results)
         console.log(table);
         //Lets user know to press enter to go back to the list instead of the list re-prompting right away
         inquirer.prompt([
@@ -532,20 +532,24 @@ function viewingByDept() {
 }
 
 // Main prompt for choosing categories for what the user wanted to do
-const questionPrompt = [
+const questionPrompt = 
     {
         name: 'employee_tracker',
         message: 'What would you like to do?',
-        type: "list",
-        choices: ["View all Employees", "Add Employee", "Update Employee Role", "Update Employee's Manager", "Delete An Employee", "View Employee By Department", "View All Roles","Add Role","View All Departments", "Add Department", "Exit"]
-    },
-];
+        type: "rawlist",
+        choices: ["View all Employees", "Add Employee", 
+                  "Update Employee Role", "Update Employee's Manager", 
+                  "Delete An Employee", "View Employee By Department", 
+                  "View All Roles","Add Role","View All Departments", 
+                  "Add Department", "Exit"]
+    }
+;
 
 // function for viewing the table for department, roles, and employees
-function promptCategories() {
+async function promptCategories() {
     console.log("hello world#$R%#!#%#%$#%!#$!$")
-    inquirer.prompt(questionPrompt).then((answer) => {
-    console.log("hello world#$R%#!#%#%$#%!#$!$")
+    await inquirer.prompt(questionPrompt).then((answer) => {
+    console.log(answer)
         // if statements with call back function inside
         // Viewing all employees table
         if(answer.employee_tracker == "View all Employees"){
