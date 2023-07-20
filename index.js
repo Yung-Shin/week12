@@ -83,7 +83,7 @@ function promptQuestions() {
           deleteDepartmentsRolesEmployees();
           break;
         case "Exit":
-          console.log("Good-Bye!");
+          console.log("May the Force be with you");
           db.end();
           break;
       }
