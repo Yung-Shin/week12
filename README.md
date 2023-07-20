@@ -23,7 +23,7 @@ Please note that although there are many versions for node inquirer, version 8.2
 
 ## How to use:
 Once you cloned my git repository and have VS code open with all the written code, please open the terminal and type node index.js
-Once you type node index.js, you will be given prompt where you can use your arrow keys to make selections of your choice. 
+Once you type node index.js, you will be given a series of questions and choices where you can use your arrow keys to make selections of your selection. 
 
 ## License
 This project is under [MIT](https://opensource.org/licenses/MIT) license.
@@ -38,5 +38,5 @@ the app provides efficient solution for employees management.
 If you have any questions, please contact me via email: ineeus2@gmail.com
 
 ##  Walkthrough Video:
-Please watch the following video demonstration if you need help using the application: 
-https://youtu.be/rdXnq2Zma10
+Please watch the following video demonstration if you need help using the application:   
+https://youtu.be/VikKV8LVX4I
